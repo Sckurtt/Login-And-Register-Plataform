@@ -40,6 +40,12 @@ body{
     font-weight: 200;
     color:rgb(255, 255, 255);
 }
+.login span{
+    margin-top: 4px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 200;
+    color:rgb(255, 255, 255);
+}
 .login form{
     display: flex;
     flex-direction: column;
@@ -95,10 +101,7 @@ body{
 }
 .new-account{
     position: absolute;
-    
     bottom: 20px;
-   
-    
     text-align: center;
 }
 .new-account a{

@@ -1,0 +1,9 @@
+.user-result *{
+    position: relative;
+    display: block;
+    top: 15px;
+}
+.user-result span{
+    height: 16px;
+    min-height: max-content;
+}
