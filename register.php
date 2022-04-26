@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,15 +25,35 @@
             <span class="result"></span>
             <span class="valid">The Best Login is Here</span>
         </div>
-            <form action="login.php" method="post" class="formRegister">
+            <form action="php/check_inputs.php" method="POST" class="formRegister">
                 <input type="text" name="firstName" placeholder="First Name" maxlength="20" minlength="3" pattern="([A-z])+">
-                <span class="alertError">teste</span>
-                <input type="text" name="user" placeholder="@user" class="userInput" pattern="[0-9. -]*" maxlength="20" minlength="3">
-                <span class="alertError">teste</span>
+                <?php
+                if(!empty($_SESSION['firstNameError'])){
+                    echo '<span class="alertError">Informe o nome corretamente</span>';
+                    unset($_SESSION['firstNameError']);
+                }
+                ?>
+                <input type="text" name="user" placeholder="@user" class="userInput"  maxlength="20" minlength="3">
+                <?php
+                if(!empty($_SESSION['userError'])){
+                    echo '<span class="alertError">Informe o usuário corretamente</span>';
+                    unset($_SESSION['userError']);
+                }
+                ?>
                 <input type="text" name="email" placeholder="E-mail">
-                <span class="alertError">teste</span>
+                <?php
+                if(!empty($_SESSION['emailError'])){
+                    echo '<span class="alertError">Informe o e-mail corretamente</span>';
+                    unset($_SESSION['emailError']);
+                }
+                ?>
                 <input type="password" name="password" placeholder="Password">
-                <span class="alertError">teste</span>
+                <?php
+                if(!empty($_SESSION['passwordError'])){
+                    echo '<span class="alertError">Informe a senha desejada</span>';
+                    unset($_SESSION['passwordError']);
+                }
+                ?>
                 <input type="submit" value="Login">
             </form>
             

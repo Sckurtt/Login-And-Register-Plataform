@@ -1,5 +1,8 @@
 <?php
+session_start();
 include('conectdb.php');
+$_SESSION['userValid'] = '';
+
 if(isset($_POST['user'])){
     $user = $_POST['user'];
     echo $user;
@@ -14,8 +17,11 @@ if(isset($_GET['user'])){
     // echo $rows_returned;
     if($rows_returned == 0){
         echo 'Usuário disponível';
+        $_SESSION['userValid'] = true;
+
     }else if($rows_returned >= 1){
         echo 'Usuário Indisponível';
+        $_SESSION['userValid'] = false;
     }
 
 

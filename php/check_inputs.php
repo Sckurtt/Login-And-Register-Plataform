@@ -1,5 +1,29 @@
 <?php
 session_start();
+
+if(empty($_POST['firstName'])){
+    $_SESSION['firstNameError'] = true;
+    header('location: ../register.php');    
+    exit;
+}
+if(empty($_POST['user']) || strlen($_POST['user']) > 20){
+    $_SESSION['userError'] = true;
+    header('location: ../register.php');
+    exit;
+}
+if(empty($_POST['email'])){
+    $_SESSION['emailError'] = true;
+    header('location: ../register.php');
+    exit;
+}
+if(empty($_POST['password'])){
+    $_SESSION['passwordError'] = true;
+    header('location: ../register.php');
+    exit;
+}
+
+
+
 if(
 !empty($_POST['firstName']) &&
 !empty($_POST['user']) &&
@@ -13,26 +37,6 @@ if(
     $emptyPost = false;
 }
 
-if(empty($_POST['firstName']) || strlen($_POST['firstName']) > 30){
-    $_SESSION['firstNameError'] = 'Preencha o campo corretamente!';
-    header('location: ../register.html');
-    exit;
-}
-if(empty($_POST['user']) || strlen($_POST['user']) > 20){
-    $_SESSION['userError'] = 'Preencha o campo corretamente!';
-    header('location: ../register.html');
-    exit;
-}
-if(empty($_POST['email'])){
-    $_SESSION['emailError'] = 'Preencha o campo corretamente!';
-    header('location: ../register.html');
-    exit;
-}
-if(empty($_POST['password'])){
-    $_SESSION['passwordError'] = 'Preencha o campo corretamente!';
-    header('location: ../register.html');
-    exit;
-}
 
 class Inputs{
     private $firstName;
@@ -48,22 +52,52 @@ class Inputs{
         $this->password = mysqli_real_escape_string($conexao, $password);
     }
     public function getFirstName(){
-        echo $this->firstName;
+        return $this->firstName;
     }
     public function getUser(){
-        echo $this->user;
+        return $this->user;
     }
     public function getEmail(){
-        echo $this->email;
+        return $this->email;
     }
     public function getPassword(){
-        echo $this->password;
+        return $this->password;
+    }
+    public function saveData($a, $b, $c, $d){
+        // include('conectdb.php');
+        define('Host2', 'localhost');
+        define('User2', 'admin');
+        define('Password2', 'admin');
+        define('Database2', 'usuarios');
+        $conexao2 = mysqli_connect(Host2, User2, Password2, Database2) or die ('Não Foi possível conectar ao DB');
+        $queryRegister = "INSERT INTO usuario VALUES (DEFAULT, '{$a}', '{$b}', '{$c}' , md5('{$d}'))";
+        mysqli_query($conexao2, $queryRegister) or die (mysqli_error($conexao2));
+        header('location: ../login.html');
+        exit;
     }
 }
 if($emptyPost == false){
     $inputsNew = new Inputs($firstName, $user, $email, $password);
+    $createRegister = [
+        $inputsNew->getFirstName(),
+        $inputsNew->getUser(),
+        $inputsNew->getEmail(),
+        $inputsNew->getPassword()
+];
 
+if($_SESSION['userValid']){
+    // echo 'valid';
+    
+    // echo $queryRegister;
+    $inputsNew->saveData($createRegister[0],$createRegister[1],$createRegister[2],$createRegister[3]);
+    
 
+}else{
+    // echo 'invavalid';
+    $_SESSION['userError'] = true;
+    header('location: ../register.php');
+    exit;
+};
 }
 
 
