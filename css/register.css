@@ -7,3 +7,11 @@
     height: 16px;
     min-height: max-content;
 }
+.formRegister span{
+    margin-top: 4px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 200;
+    color: #ffdb50;
+    position: relative;
+    left: 50px;
+}

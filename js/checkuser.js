@@ -10,21 +10,29 @@ inputHTML.addEventListener("keyup", (e)=>{ // Função que escuta a tecla pressi
       
     // A - Z && 0 - 9
     
-    pHTML.textContent += e.key; // Exibe no front o resultado da digitação
+     // Exibe no front o resultado da digitação
     user = inputHTML.value;
     keyMark = pHTML.textContent;
+    inputValue = inputHTML.value;
     // ---- AJAX -------
-    while(inputHTML.value.length <= 19){
-    $.ajax({
-    method: "GET",
-    url: "php/check_user.php",
-    data: { user: user}
-    })
-    .done(function( msg ) {
-        validUser.textContent = '' + msg;
-    });
+ 
+    
+    if(inputValue.length <= 19){
+      console.log(inputValue.length);
+      $.ajax({
+        method: "GET",
+        url: "php/check_user.php",
+        data: { user: user}
+        })
+        .done(function( msg ) {
+            validUser.textContent = '' + msg;
+        });
+        pHTML.textContent += e.key;
+    }
+
+    
     console.log(keyMark);
-}
+  
   }else if(key == 32){ // Space
     alert("O nome de usuário não pode conter espaços!");
     // keyMark = keyMark.replace(' ', '');
