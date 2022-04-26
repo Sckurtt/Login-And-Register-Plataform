@@ -22,8 +22,6 @@ if(empty($_POST['password'])){
     exit;
 }
 
-
-
 if(
 !empty($_POST['firstName']) &&
 !empty($_POST['user']) &&
@@ -37,15 +35,14 @@ if(
     $emptyPost = false;
 }
 
-
 class Inputs{
     private $firstName;
     private $user;
     private $email;
     private $password;
-    public function __construct($firstName, $user, $email, $password)
+    public function __construct($firstName, $user, $email, $password, $conect)
     {
-        include('conectdb.php');
+        include($conect);
         $this->firstName = mysqli_real_escape_string($conexao, $firstName);
         $this->user = mysqli_real_escape_string($conexao, $user);
         $this->email = mysqli_real_escape_string($conexao, $email);
@@ -63,6 +60,11 @@ class Inputs{
     public function getPassword(){
         return $this->password;
     }
+    public function errorDataRegister(){
+        $_SESSION['errorMensage'] = "Não Foi possível criar a conta!";
+        header('Location: ../register.php');
+        exit;
+    }
     public function saveData($a, $b, $c, $d){
         // include('conectdb.php');
         define('Host2', 'localhost');
@@ -71,13 +73,13 @@ class Inputs{
         define('Database2', 'usuarios');
         $conexao2 = mysqli_connect(Host2, User2, Password2, Database2) or die ('Não Foi possível conectar ao DB');
         $queryRegister = "INSERT INTO usuario VALUES (DEFAULT, '{$a}', '{$b}', '{$c}' , md5('{$d}'))";
-        mysqli_query($conexao2, $queryRegister) or die (mysqli_error($conexao2));
-        header('location: ../login.html');
+        mysqli_query($conexao2, $queryRegister) or die ($this->errorDataRegister());
+        header('location: ../login.php');
         exit;
     }
 }
 if($emptyPost == false){
-    $inputsNew = new Inputs($firstName, $user, $email, $password);
+    $inputsNew = new Inputs($firstName, $user, $email, $password, 'conectdb.php');
     $createRegister = [
         $inputsNew->getFirstName(),
         $inputsNew->getUser(),
@@ -87,11 +89,8 @@ if($emptyPost == false){
 
 if($_SESSION['userValid']){
     // echo 'valid';
-    
     // echo $queryRegister;
     $inputsNew->saveData($createRegister[0],$createRegister[1],$createRegister[2],$createRegister[3]);
-    
-
 }else{
     // echo 'invavalid';
     $_SESSION['userError'] = true;
@@ -99,10 +98,5 @@ if($_SESSION['userValid']){
     exit;
 };
 }
-
-
-
-
-
 
 ?>

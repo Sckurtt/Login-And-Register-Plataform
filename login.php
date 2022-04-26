@@ -13,12 +13,12 @@
         <section class="login">
             <h1>Welcome To System</h1>
             <p>The best login</p>
-            <form action="login.php" method="post">
+            <form action="php/login.php" method="post">
                 <input type="text" name="user" placeholder="@user">
                 <input type="password" name="password" placeholder="Password">
                 <input type="submit" value="Login">
             </form>
-            <p class="new-account"><a href="register.html">Criar uma conta</a></p>
+            <p class="new-account"><a href="register.php">Criar uma conta</a></p>
         </section>
 
     </main>
